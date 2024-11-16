@@ -14,7 +14,7 @@
 #     # Return the top 'n' items as a list of tuples
 #     return sortedCreatorCounts[:n]
 from db import *
-def getTopCreators(tweetList: list, n: int):
+def getTopCreators(tweetList: list, n: int, country="None"):
     creatorData = {}
 
     for tweet in tweetList:
