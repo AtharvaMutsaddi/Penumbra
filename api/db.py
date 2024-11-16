@@ -16,3 +16,8 @@ def getTweets(category:str):
         tweets=json.load(file)
     return tweets
     
+def getTwitterTrends():
+    with open(twitterDataPathPrefix+"processed/cleanedTopicTrends.json","r",errors='ignore',encoding='utf-8') as file:
+        trends=json.load(file)
+
+    return trends
