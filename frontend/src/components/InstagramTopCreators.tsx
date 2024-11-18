@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Users } from 'lucide-react';
 import axios from 'axios';
 
-export const InstagramTopCreators = ({ urlType }: { urlType: string }) => {
+export const InstagramTopCreators = ({ category }: { category: string }) => {
     type Creator = {
         category: string;
         fullName: string;
@@ -17,15 +17,7 @@ export const InstagramTopCreators = ({ urlType }: { urlType: string }) => {
     useEffect(() => {
         const fetch_data = async () => {
             try {
-                let url: string | null = null;
-
-                if (urlType === "general") {
-                    url = "http://127.0.0.1:5000/instagram/general/topcreators";
-                } else {
-                    url = "http://127.0.0.1:5000/instagram/general/topcreators";
-                }
-
-                const result = await axios.get(url);
+                const result = await axios.get("http://127.0.0.1:5000/instagram/topcreators", { params: { "category": category } });
                 set_creators(result.data);
             } catch (error) {
                 console.error("Error fetching creators:", error);
@@ -33,12 +25,12 @@ export const InstagramTopCreators = ({ urlType }: { urlType: string }) => {
         };
 
         fetch_data();
-    }, []);
+    }, [category]);
 
     return (
         <div className="bg-white rounded-xl shadow-lg p-6">
             <div className="flex items-center gap-2 mb-6">
-                <Users className="w-5 h-5 text-purple-500" />
+                <Users className="w-5 h-5 text-blue-500" />
                 <h2 className="text-xl font-bold">Top Creators</h2>
             </div>
             <div className="space-y-6">

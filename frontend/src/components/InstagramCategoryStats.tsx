@@ -59,7 +59,7 @@ export const InstagramCategoryStats = () => {
                         width={40}
                     />
                     <Tooltip formatter={(value: number) => `${value.toLocaleString()} posts`} />
-                    <Bar dataKey="count" fill="#4CAF50" barSize={80} />
+                    <Bar dataKey="count" fill="orange" barSize={80} />
                 </BarChart>
             </ResponsiveContainer>
         </div>

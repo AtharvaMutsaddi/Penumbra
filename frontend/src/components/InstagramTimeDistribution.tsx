@@ -3,26 +3,18 @@ import axios from "axios";
 import { Timer } from "lucide-react";
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
-export const InstagramTimeDistribution = ({ urlType }: { urlType: string }) => {
+export const InstagramTimeDistribution = ({ category }: { category: string }) => {
     type TimeDistribution = { name: string, count: number };
     let [slots, set_slots] = useState<TimeDistribution[]>([]);
 
     useEffect(() => {
         const fetch_data = async () => {
-            let url: string | null = null;
-
-            if (urlType === "general") {
-                url = "http://127.0.0.1:5000/instagram/general/timedistribution";
-            } else {
-                url = "http://127.0.0.1:5000/instagram/general/timedistribution"; // adjust this URL as needed
-            }
-
-            const result = await axios.get(url);
+            const result = await axios.get("http://127.0.0.1:5000/instagram/timedistribution", { params: { "category": category } });
             set_slots(result.data);
         };
 
         fetch_data();
-    }, [urlType]);
+    }, [category]);
 
     const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
@@ -32,11 +24,11 @@ export const InstagramTimeDistribution = ({ urlType }: { urlType: string }) => {
         <div className="bg-white rounded-xl shadow-lg p-6">
 
             <div className="flex items-center gap-2 mb-6">
-                <Timer className="w-5 h-5 text-purple-500" />
+                <Timer className="w-5 h-5 text-orange-500" />
                 <h2 className="text-xl font-bold">Time Statistics</h2>
             </div>
 
-            <ResponsiveContainer width="100%" height={340}>
+            <ResponsiveContainer width="100%" height={370}>
                 <PieChart>
                     <Pie
                         data={slots}

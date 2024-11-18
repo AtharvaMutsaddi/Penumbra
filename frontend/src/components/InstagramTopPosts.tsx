@@ -2,35 +2,29 @@ import { useState, useEffect } from "react";
 import { Instagram } from "lucide-react";
 import axios from "axios";
 
-export const InstagramTopPosts = ({ urlType }: { urlType: string }) => {
+export const InstagramTopPosts = ({ category, n }: { category: string, n: number }) => {
     const [postsLinks, setPostsLinks] = useState<string[]>([]);
     const [currentPageNumber, setCurrentPageNumber] = useState<number>(1);
     const [currentPage, setCurrentPage] = useState<string[]>([]);
 
     useEffect(() => {
         const fetchData = async () => {
-            let url: string;
-
-            if (urlType === "general") {
-                url = "http://127.0.0.1:5000/instagram/general/toppostslinks";
-            } else {
-                url = "http://127.0.0.1:5000/instagram/specific/toppostslinks";
-            }
-
             try {
-                const result = await axios.get(url);
+                const result = await axios.get("http://127.0.0.1:5000/instagram/toppostslinks", { params: { "category": category } });
                 setPostsLinks(result.data);
+                setCurrentPageNumber(1);
+                console.log(result.data[0].split('/')[4])
             } catch (error) {
                 console.error("Error fetching Instagram posts:", error);
             }
         };
 
         fetchData();
-    }, []);
+    }, [category, n]);
 
     useEffect(() => {
-        const startIndex = (currentPageNumber - 1) * 2;
-        const endIndex = startIndex + 2;
+        const startIndex = (currentPageNumber - 1);
+        const endIndex = currentPageNumber;
         setCurrentPage(postsLinks.slice(startIndex, endIndex));
     }, [postsLinks, currentPageNumber]);
 
@@ -47,15 +41,14 @@ export const InstagramTopPosts = ({ urlType }: { urlType: string }) => {
 
             <div className="space-y-6 insta-posts">
                 {currentPage.map((link, index) => (
-                    <div key={index} style={{ display: "flex", justifyContent: "center" }}>
+                    <div key={index} className="flex justify-center p-2 border border-gray-200 rounded-lg">
                         {/* Embed Instagram post using iframe */}
                         <iframe
-                            src={`https://www.instagram.com/p/${link.split('/')[4]}/embed`}
-                            width="328"
-                            height="400"
-                            allow="encrypted-media"
-                            title={`Instagram Post ${index + 1}`}
-                        ></iframe>
+                            src={`https://www.instagram.com/p/${link.split('/')[4]}/embed/?utm_source=ig_web_copy_link`}
+                            width="400px"
+                            height="650px"
+                        >
+                        </iframe>
                     </div>
                 ))}
             </div>
@@ -70,8 +63,8 @@ export const InstagramTopPosts = ({ urlType }: { urlType: string }) => {
                 </button>
                 <button
                     onClick={() => handlePageChange(currentPageNumber + 1)}
-                    disabled={currentPageNumber === 3}
-                    className={`px-4 py-2 rounded-lg ${currentPageNumber === 3 ? "bg-gray-200 cursor-not-allowed" : "bg-indigo-500 text-white"}`}
+                    disabled={currentPageNumber === n}
+                    className={`px-4 py-2 rounded-lg ${currentPageNumber === n ? "bg-gray-200 cursor-not-allowed" : "bg-indigo-500 text-white"}`}
                 >
                     Next
                 </button>

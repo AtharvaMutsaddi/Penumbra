@@ -57,7 +57,7 @@ def getInstagramHashTagAnalytics(category: str) -> dict:
             return json.load(f)
 
 
-def getInstagramTop10Creators(category: str) -> list:
+def getInstagramCreatorsInfo(category: str) -> list:
     if category not in os.listdir(instagramDataPathPrefix):
         return []
     else:

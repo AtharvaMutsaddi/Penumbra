@@ -10,7 +10,11 @@ CORS(app)
 
 
 def encode_image_from_url(image_url):
-    """Fetch an image from a URL and encode it as base64 with MIME type."""
+    if image_url == None:
+        return encode_image_from_url(
+            "https://cdn0.iconfinder.com/data/icons/set-ui-app-android/32/8-512.png"
+        )
+
     response = requests.get(image_url)
 
     if response.status_code == 200:
@@ -24,7 +28,9 @@ def encode_image_from_url(image_url):
 
         return mime_type, encoded_string
     else:
-        return None, None
+        return encode_image_from_url(
+            "https://cdn0.iconfinder.com/data/icons/set-ui-app-android/32/8-512.png"
+        )
 
 
 @app.route("/twitter/topcreators", methods=["GET"])
@@ -85,9 +91,17 @@ def tweets():
     return jsonify(getPosts(category)), 200
 
 
-@app.route("/instagram/general/topcreators", methods=["GET"])
-def instagramgeneraltopcreators():
-    ans = getInstagramGeneralTopCreators()
+@app.route("/instagram/general/categorystatistics", methods=["GET"])
+def instagramgeneralcategorystatistics():
+    mp = getInstagramGeneralCategoryStatistics()
+    ans = [{"name": key.capitalize(), "count": value} for key, value in mp.items()]
+    return jsonify(ans), 200
+
+
+@app.route("/instagram/topcreators", methods=["GET"])
+def instagramtopcreators():
+    category = request.args.get("category")
+    ans = getInstagramTopCreators(category)
 
     for item in ans:
         mime_type, encoded_image = encode_image_from_url(item["profilePicUrl"])
@@ -99,28 +113,32 @@ def instagramgeneraltopcreators():
     return jsonify(ans), 200
 
 
-@app.route("/instagram/general/tophashtags", methods=["GET"])
-def instagramgeneraltophashtags():
-    mp = getInstagramGeneralTopHashtags()
-    ans = [{"tag": key, "count": value} for key, value in mp.items()]
+@app.route("/instagram/tophashtags", methods=["GET"])
+def instagramtophashtags():
+    category = request.args.get("category")
+    mp = getInstagramTopHashtags(category)
+
+    ans = [{"text": key, "value": value} for key, value in mp.items()]
+
     return jsonify(ans), 200
 
 
-@app.route("/instagram/general/categorystatistics", methods=["GET"])
-def instagramgeneralcategorystatistics():
-    mp = getInstagramGeneralCategoryStatistics()
-    ans = [{"name": key.capitalize(), "count": value} for key, value in mp.items()]
-    return jsonify(ans), 200
+@app.route("/instagram/categorypopularity", methods=["GET"])
+def instagramcategorypopularity():
+    category = request.args.get("category")
+    return jsonify(getInstagramHashTagAnalytics(category)["stats"]), 200
 
 
-@app.route("/instagram/general/toppostslinks", methods=["GET"])
-def instagramgeneraltoppostslinks():
-    return jsonify(getInstagramGeneralTopPostsLinks()), 200
+@app.route("/instagram/toppostslinks", methods=["GET"])
+def instagramtoppostslinks():
+    category = request.args.get("category")
+    return jsonify(getInstagramTopPostsLinks(category)), 200
 
 
-@app.route("/instagram/general/timedistribution", methods=["GET"])
-def instagramgeneraltimedistribution():
-    mp = getInstagramGeneralTimeDistribution()
+@app.route("/instagram/timedistribution", methods=["GET"])
+def instagramtimedistribution():
+    category = request.args.get("category")
+    mp = getInstagramTimeDistribution(category)
     ans = [{"name": key, "count": value} for key, value in mp.items()]
     return jsonify(ans), 200
 
