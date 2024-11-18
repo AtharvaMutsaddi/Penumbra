@@ -1,12 +1,15 @@
 import React from 'react';
-import { PieChart, Music, Code, LucideBatteryFull, Utensils, Palette } from 'lucide-react';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
+import { PieChart } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const categories = [
-  { name: "Technology", icon: Code, count: 2345678, color: "text-blue-500" },
-  { name: "Sports", icon: LucideBatteryFull, count: 1987654, color: "text-green-500" },
-  { name: "Music", icon: Music, count: 1876543, color: "text-purple-500" },
-  { name: "Food", icon: Utensils, count: 1654321, color: "text-orange-500" },
-  { name: "Art", icon: Palette, count: 1543210, color: "text-pink-500" }
+  { name: "Tech", count: 922000, color: "#3b82f6", propName: "tech" },  // blue
+  { name: "Sports", count: 667005, color: "#10b981", propName: "sports" }, // green
+  { name: "Music", count: 345000, color: "#a855f7", propName: "music" },  // purple
+  { name: "Food", count: 165432, color: "#f97316", propName: "food" },   // orange
+  { name: "Art", count: 101900, color: "#ec4899", propName: "art" },    // pink
+  { name: "News", count: 982017, color: "#f43f5e", propName: "general" }    // red
 ];
 
 export default function CategoryStats() {
@@ -16,19 +19,39 @@ export default function CategoryStats() {
         <PieChart className="w-5 h-5 text-indigo-500" />
         <h2 className="text-xl font-bold">Category Statistics</h2>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {categories.map((category, index) => {
-          const Icon = category.icon;
-          return (
-            <div key={index} className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
-              <Icon className={`w-8 h-8 ${category.color}`} />
-              <div>
-                <h3 className="font-semibold">{category.name}</h3>
-                <p className="text-sm text-gray-600">{category.count.toLocaleString()} tweets</p>
-              </div>
-            </div>
-          );
-        })}
+      <div className="h-96">
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart data={categories} margin={{ top: 20, right: 10, left: 5, bottom: 20 }}>
+            {/* Custom XAxis with clickable labels */}
+            <XAxis
+              dataKey="name"
+              tick={({ x, y, payload }) => (
+                <Link to={`/twitter/category/${categories[payload.index].propName}`}>
+                  <text
+                    x={x}
+                    y={y + 20}
+                    textAnchor="middle"
+                    style={{ fontSize: "14px", fill: "#4B5563", cursor: "pointer" }}
+                  >
+                    {payload.value}
+                  </text>
+                </Link>
+              )}
+            />
+            <YAxis
+              tick={{ fontSize: 14, fill: "#4B5563" }}
+            />
+            <Tooltip
+              formatter={(value) => value.toLocaleString()}
+              contentStyle={{ fontSize: "14px" }}
+            />
+            <Bar dataKey="count" radius={[5, 5, 0, 0]}>
+              {categories.map((category, index) => (
+                <Cell key={index} fill={category.color} />
+              ))}
+            </Bar>
+          </BarChart>
+        </ResponsiveContainer>
       </div>
     </div>
   );

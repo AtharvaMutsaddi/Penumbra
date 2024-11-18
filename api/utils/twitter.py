@@ -23,8 +23,15 @@ def getTopCreators(tweetList: list, n: int, country="None"):
         url = author['url']
         profilePicture = author['profilePicture']
         followers = author['followers']
+        name=author["name"]
         if creator not in creatorData:
-            creatorData[creator] = {'count': 0, 'url': url, 'profile picture': profilePicture, 'followers': followers}
+            creatorData[creator] = {
+                'count': 0, 
+                'url': url, 
+                'profile picture': profilePicture, 
+                'followers': followers,
+                'name':name
+            }
         creatorData[creator]['count'] += 1
 
     # Sort the dictionary by count in descending order
@@ -103,12 +110,15 @@ def getPosts(category:str):
         for tweet in tweets:
             processedTweet={
                 "id":tweet["id"],
+                "content":tweet["text"],
                 "url":tweet["url"],
                 "retweetCount": tweet["retweetCount"],
                 "replyCount": tweet["replyCount"],
                 "likeCount": tweet["likeCount"],
                 "viewCount": tweet["viewCount"],
                 "createdAt":tweet["createdAt"],
+                "authorName":tweet["author"]["name"],
+                "authorProfilePicture":tweet["author"]['profilePicture'],
                 "authorUsername":tweet["author"]["userName"],
                 "authorURL":tweet["author"]["url"],
                 "authorXVerification":tweet["author"]["isBlueVerified"],
