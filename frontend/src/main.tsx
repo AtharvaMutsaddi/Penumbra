@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 import TwitterDashboard from './pages/TwitterDashboard';
 import TwitterCategoryDashboard from './pages/TwitterCategoryDashboard';
+import ChatGptResponse from './pages/ChatGptResponse'
 import './index.css';
 import {
   createBrowserRouter,
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
   {
     path:"/twitter/category/:category",
     element: <TwitterCategoryDashboard/>
+  },
+  {
+    path:"/suggestions/:socialMediaPlatform/:postCategory",
+    element: <ChatGptResponse/>
   }
 ]);
 createRoot(document.getElementById('root')!).render(

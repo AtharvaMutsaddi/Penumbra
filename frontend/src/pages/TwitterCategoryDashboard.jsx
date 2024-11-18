@@ -5,18 +5,12 @@ import TopHashtagChart from '../components/TopHashtagChart';
 import TrendingTopics from '../components/TrendingTopics';
 import TopCreators from '../components/TopCreators';
 import TopTweets from '../components/TopTweets';
+import Navbar from '../components/Navbar';
 function TwitterCategoryDashboard() {
     var { category }=useParams() || { category: 'general' };
   return (
     <div className="min-h-screen bg-gray-100">
-      <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center gap-3">
-            <X className="w-8 h-8 text-blue-500" />
-            <h1 className="text-2xl font-bold">{category} Analytics Dashboard</h1>
-          </div>
-        </div>
-      </header>
+      <Navbar socialMediaPlatform={"Twitter"} clickable={true} postCategory={category}></Navbar>
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Left Column */}

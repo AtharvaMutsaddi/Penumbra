@@ -1,13 +1,13 @@
 import React, {useState,useEffect} from 'react';
 import { Hash } from 'lucide-react';
-import { fetchTopHashtags } from '../../services/twitterApi';
+import { fetchTwitterTopHashtags } from '../../services/twitterApi';
 
 export default function TopHashtags() {
   const [hashtags, setHashtags] = useState([]);
 
   const fetchData = async () => {
     try {
-      const resp = await fetchTopHashtags("general");
+      const resp = await fetchTwitterTopHashtags("general");
       const sortedData = Object.entries(resp).sort((a, b) => b[1] - a[1]);
       setHashtags(sortedData.slice(0,6));
     } catch (error) {
