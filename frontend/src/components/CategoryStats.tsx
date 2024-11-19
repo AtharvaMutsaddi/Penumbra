@@ -4,12 +4,12 @@ import { PieChart } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const categories = [
-  { name: "Tech", count: 922000, color: "#3b82f6", propName: "tech" },  // blue
-  { name: "Sports", count: 667005, color: "#10b981", propName: "sports" }, // green
-  { name: "Music", count: 345000, color: "#a855f7", propName: "music" },  // purple
-  { name: "Food", count: 165432, color: "#f97316", propName: "food" },   // orange
-  { name: "Art", count: 101900, color: "#ec4899", propName: "art" },    // pink
-  { name: "News", count: 982017, color: "#f43f5e", propName: "general" }    // red
+  { name: "Tech", count: 922000, color: "#3b82f6", propName: "tech" },
+  { name: "Sport", count: 667005, color: "#10b981", propName: "sports" },
+  { name: "Music", count: 345000, color: "#a855f7", propName: "music" },
+  { name: "Food", count: 165432, color: "#f97316", propName: "food" },
+  { name: "Art", count: 101900, color: "#ec4899", propName: "art" },
+  { name: "News", count: 982017, color: "#f43f5e", propName: "general" },
 ];
 
 export default function CategoryStats() {
@@ -21,8 +21,7 @@ export default function CategoryStats() {
       </div>
       <div className="h-96">
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={categories} margin={{ top: 20, right: 10, left: 5, bottom: 20 }}>
-            {/* Custom XAxis with clickable labels */}
+          <BarChart data={categories} margin={{ top: 20, right: 0, left: 0, bottom: 40 }}>
             <XAxis
               dataKey="name"
               tick={({ x, y, payload }) => (
@@ -31,16 +30,19 @@ export default function CategoryStats() {
                     x={x}
                     y={y + 20}
                     textAnchor="middle"
-                    style={{ fontSize: "14px", fill: "#4B5563", cursor: "pointer" }}
+                    style={{
+                      fontSize: "12px",
+                      fill: "#4B5563",
+                      cursor: "pointer",
+                    }}
+                    transform={`rotate(-30, ${x}, ${y + 20})`} // Rotate labels
                   >
-                    {payload.value}
+                    {payload.value.length > 4 ? `${payload.value.slice(0,5)}` : payload.value}
                   </text>
                 </Link>
               )}
             />
-            <YAxis
-              tick={{ fontSize: 14, fill: "#4B5563" }}
-            />
+            <YAxis tick={{ fontSize: 14, fill: "#4B5563" }} />
             <Tooltip
               formatter={(value) => value.toLocaleString()}
               contentStyle={{ fontSize: "14px" }}
