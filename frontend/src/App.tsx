@@ -5,8 +5,6 @@ import { InstagramDashboard } from "./pages/InstagramDashboard.jsx"
 function App() {
   return (
     <>
-      {/* <TwitterDashboard /> */}
-      <InstagramDashboard />
     </>
   );
 }
