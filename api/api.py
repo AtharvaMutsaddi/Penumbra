@@ -3,13 +3,9 @@ from flask_cors import CORS
 from utils.twitter import *
 from utils.instagram import *
 from db import *
-<<<<<<< HEAD
 import base64, requests, mimetypes
-
-=======
 import json
 import os
->>>>>>> a9e597d (Youtube features added)
 app = Flask(__name__)
 CORS(app)
 
