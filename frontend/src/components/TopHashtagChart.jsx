@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
 import { Hash } from "lucide-react";
-import { fetchTopHashtags } from "../../services/twitterApi";
+import { fetchTwitterTopHashtags } from "../../services/twitterApi";
 
 export default function TopHashtagChart(props) {
   const [hashtags, setHashtags] = useState([]);
 
   const fetchData = async () => {
     try {
-      const resp = await fetchTopHashtags(props.category);
+      const resp = await fetchTwitterTopHashtags(props.category);
       const sortedData = Object.entries(resp)
         .sort((a, b) => b[1] - a[1])
         .slice(0, 6) // Select top 6 hashtags

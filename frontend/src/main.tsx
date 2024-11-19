@@ -1,9 +1,9 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import TwitterDashboard from './pages/TwitterDashboard.jsx';
-import TwitterCategoryDashboard from './pages/TwitterCategoryDashboard.jsx';
-import { InstagramDashboard } from './pages/InstagramDashboard.tsx';
-import { InstagramCategoryDashboard } from './pages/InstagramCategoryDashboard.tsx';
+import App from './App.tsx';
+import TwitterDashboard from './pages/TwitterDashboard';
+import TwitterCategoryDashboard from './pages/TwitterCategoryDashboard';
+import ChatGptResponse from './pages/ChatGptResponse'
 import './index.css';
 import {
   createBrowserRouter,
@@ -15,16 +15,12 @@ const router = createBrowserRouter([
     element: <TwitterDashboard category="general" />,
   },
   {
-    path: "/twitter/category/:category",
-    element: <TwitterCategoryDashboard />
+    path:"/twitter/category/:category",
+    element: <TwitterCategoryDashboard/>
   },
   {
-    path: "/instagram/",
-    element: <InstagramDashboard />
-  },
-  {
-    path: "/instagram/category/:category",
-    element: <InstagramCategoryDashboard />,
+    path:"/suggestions/:socialMediaPlatform/:postCategory",
+    element: <ChatGptResponse/>
   }
 
 ]);

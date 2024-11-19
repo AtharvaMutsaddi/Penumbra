@@ -12,7 +12,7 @@ export const fetchTopCreators = async (category) => {
     throw error;
   }
 };
-export const fetchTopHashtags = async (category) => {
+export const fetchTwitterTopHashtags = async (category) => {
   try {
     const response = await instance.get(`/tophashtags?category=${category}`);
     return response.data;
