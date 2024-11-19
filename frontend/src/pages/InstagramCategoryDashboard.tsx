@@ -5,9 +5,18 @@ import { InstagramTopHashtags } from '../components/InstagramTopHashtags.tsx';
 import { InstagramCategoryPopularity } from '../components/InstagramCategoryPopularity.tsx';
 import { InstagramTimeDistribution } from '../components/InstagramTimeDistribution.tsx';
 import { InstagramTopPosts } from '../components/InstagramTopPosts.tsx';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 export const InstagramCategoryDashboard = () => {
+    const navigate = useNavigate()
     let { category = "general" } = useParams<{ category: string }>() || {};
+
+    useEffect(() => {
+        if (category === "general") {
+            navigate("/instagram");
+        }
+    })
 
     return (
         <div className="min-h-screen bg-gray-100">
