@@ -1,6 +1,5 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import App from './App.tsx';
 import TwitterDashboard from './pages/TwitterDashboard.jsx';
 import TwitterCategoryDashboard from './pages/TwitterCategoryDashboard.jsx';
 import { InstagramDashboard } from './pages/InstagramDashboard.tsx';
