@@ -68,6 +68,8 @@ export default function ChatGPTResponse() {
     }, [posts, hashtags]); // This will run whenever posts or hashtags are updated
 
     return (
+        <>
+
         <div className="min-h-screen bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 flex flex-col items-center justify-center p-6">
             <div className="w-full max-w-4xl bg-white shadow-lg rounded-xl overflow-hidden">
                 <div className="p-8 bg-blue-600 text-white">
@@ -101,6 +103,8 @@ export default function ChatGPTResponse() {
                 </div>
             </div>
         </div>
+    
+        </>
     );
 }
 

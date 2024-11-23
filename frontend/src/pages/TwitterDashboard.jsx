@@ -5,9 +5,11 @@ import TopHashtags from '../components/TopHashtags';
 import CategoryStats from '../components/CategoryStats';
 import TopTweets from '../components/TopTweets';
 import Navbar from '../components/Navbar';
+import Sidebar from '../components/SideBar'
 function TwitterDashboard() {
   return (
     <div className="min-h-screen bg-gray-100">
+      <Sidebar/>
       <Navbar socialMediaPlatform="Twitter" clickable={true}></Navbar>
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

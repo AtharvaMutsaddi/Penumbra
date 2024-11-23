@@ -1,10 +1,11 @@
-from flask import Flask, jsonify, request
+from flask import Flask, abort, jsonify, request, send_file
 from flask_cors import CORS
 from utils.twitter import *
 from utils.instagram import *
 from db import *
 import base64, requests, mimetypes
-
+import json
+import os
 app = Flask(__name__)
 CORS(app)
 
@@ -142,6 +143,70 @@ def instagramtimedistribution():
     ans = [{"name": key, "count": value} for key, value in mp.items()]
     return jsonify(ans), 200
 
+@app.route("/youtube/trendingvideos", methods=["GET"])
+def trendingvideos():
+    category = request.args.get("category")  
+    try:
+        if category:
+            file_path = f"../data/YouTube data/processed/top_videos_category_{category}.json"
+            with open(file_path, "r") as file:
+                videos = json.load(file)
+        else:   
+            file_path = "../data/YouTube data/processed/trending_videos.json"
+            with open(file_path, "r") as file:
+                videos = json.load(file)
+        return jsonify(videos), 200
 
-if __name__ == "__main__":
+    except FileNotFoundError:
+        abort(404, description=f"Category '{category}' not found.")
+
+@app.route("/youtube/topsearches", methods=["GET"])
+def topsearches():
+    file_path = "../data/YouTube data/processed/top_searches.json"
+    with open(file_path, "r") as file:
+        videos = json.load(file)
+    return jsonify(videos), 200
+
+@app.route("/youtube/topchannels", methods=["GET"])
+def topchannels():
+    file_path = "../data/YouTube data/processed/channel_data.json"
+    with open(file_path, "r") as file:
+        channels = json.load(file)
+    return jsonify(channels), 200
+
+@app.route("/youtube/comments", methods=["GET"])
+def comments():
+    videoId = request.args.get("videoId") 
+    file_path = "../data/YouTube data/processed/comments_data.json"
+    with open(file_path, "r", encoding="utf-8") as file:
+        comments_data = json.load(file)
+    if videoId in comments_data:
+        return jsonify(comments_data[videoId]["comments"])
+    else:
+        return jsonify({"error": "Video ID not found"}), 404
+    
+@app.route("/youtube/wordcloud", methods=["GET"])
+def wordcloud():
+    videoId = request.args.get("videoId")
+    print(videoId)
+    file_path = f"../data/YouTube data/processed/wordclouds/wordcloud_{videoId}.png"
+    if os.path.exists(file_path):
+        return send_file(file_path, mimetype='image/png')
+    else:
+        return jsonify({"error": "Word cloud image not found"}), 404
+    
+@app.route("/youtube/sentimentanalysis", methods=["GET"])
+def sentiments():
+    videoId = request.args.get("videoId")
+    print(videoId)
+    file_path = "../data/YouTube data/processed/comments_data.json"
+    with open(file_path, "r", encoding="utf-8") as file:
+        comments_data = json.load(file)
+    if videoId in comments_data:
+        return jsonify(comments_data[videoId]["summary"])
+    else:
+        return jsonify({"error": "Video ID not found"}), 404
+
+
+if __name__ == '__main__':
     app.run(debug=True)
