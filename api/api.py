@@ -143,9 +143,6 @@ def instagramtimedistribution():
     ans = [{"name": key, "count": value} for key, value in mp.items()]
     return jsonify(ans), 200
 
-
-if __name__ == "__main__":
-    app.run(debug=True)
 @app.route("/youtube/trendingvideos", methods=["GET"])
 def trendingvideos():
     category = request.args.get("category")  

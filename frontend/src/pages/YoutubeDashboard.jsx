@@ -4,10 +4,11 @@ import TopChannels from "../components/Youtube/TopChannels";
 import TopSearches from "../components/Youtube/TopSearches";
 import VideoCategoryChart from "../components/Youtube/VideoCategoryChart";
 import { Youtube } from "lucide-react";
-
+import Sidebar from "../components/SideBar";
 const Dashboard = () => {
   return (
     <div className="min-h-screen bg-gray-100">
+      <Sidebar/>
       <header className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center gap-3">

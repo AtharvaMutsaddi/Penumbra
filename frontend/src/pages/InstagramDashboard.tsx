@@ -4,11 +4,12 @@ import { InstagramCategoryStats } from "../components/InstagramCategoryStats.tsx
 import { InstagramTimeDistribution } from '../components/InstagramTimeDistribution.tsx';
 import { InstagramTopPosts } from '../components/InstagramTopPosts.tsx';
 import { InstagramSearchBar } from '../components/InstagramSearchBar.tsx';
-
+import Sidebar from "../components/SideBar.tsx";
 export const InstagramDashboard = () => {
     return (
         <div className="min-h-screen bg-gray-100">
             {/* Header */}
+            <Sidebar/>
             <InstagramSearchBar type='general' />
 
             {/* Main Content */}
